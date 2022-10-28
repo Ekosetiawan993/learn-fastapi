@@ -16,12 +16,16 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     hashed_password = utils.hashing_password(user.password)
     user.password = hashed_password
 
-    new_user = models.User(**user.dict())
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+    try:
+        new_user = models.User(**user.dict())
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
 
-    return new_user
+        return new_user
+    except:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f'Email already exists')
 
     # @app.post("/createposts")
     # def create_posts(payload: dict = Body(...)):
