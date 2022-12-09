@@ -65,7 +65,7 @@ app.add_middleware(
 
 @app.get("/")
 def index():
-    return "Hello fastapi, dari eko, 1234"
+    return {'msg': 'halo dunia'}
 
 
 # Grab the router from routers folder
